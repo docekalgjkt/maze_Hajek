@@ -4,9 +4,20 @@ file = open("soubor.txt", "r")
 size = file.readline().split(" ")
 rowCount = int(size[0])
 columnCount = int(size[1])
-print(rowCount)
+
+
 def generate():
-    print("hovno")
+    for _ in range(rowCount):
+        line = file.readline().strip("\n").split(" ")
+        for x in range(len(line)):
+            if int(line[x]):
+                canvas.create_line(10+(x*50),10+(_*50),10+(x*50),60+(_*50))
+
+    for y in range(columnCount):
+        line = file.readline().strip("\n").split(" ")
+        for x in range(len(line)):
+            if int(line[x]):
+                canvas.create_line(10+(y*50),10+(x*50),60+(y*50),10+(x*50))
 
 
 win=Tk()
