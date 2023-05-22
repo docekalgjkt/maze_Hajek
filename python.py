@@ -1,34 +1,37 @@
 from tkinter import *
 
-file = open("soubor.txt", "r")
+file = open("soubor2.txt", "r")
 size = file.readline().split(" ")
 rowCount = int(size[0])
 columnCount = int(size[1])
 
+squareSize = 480/rowCount
+if rowCount < columnCount:
+    squareSize = 480/columnCount
 
 def generate():
     for _ in range(rowCount):
         line = file.readline().strip("\n").split(" ")
         for x in range(len(line)):
             if int(line[x]) == 1:
-                canvas.create_line(10+(x*50),10+(_*50),10+(x*50),60+(_*50))
+                canvas.create_line(10+(x*squareSize),10+(_*squareSize),10+(x*squareSize),10+squareSize+(_*squareSize))
             elif int(line[x]) == 2:
-                canvas.create_line(10+(x*50),10+(_*50),10+(x*50),60+(_*50), fill="red", width=4)
+                canvas.create_line(10+(x*squareSize),10+(_*squareSize),10+(x*squareSize),10+squareSize+(_*squareSize), fill="red", width=4)
 
     for y in range(columnCount):
         line = file.readline().strip("\n").split(" ")
         for x in range(len(line)):
             if int(line[x]) == 1:
-                canvas.create_line(10+(y*50),10+(x*50),60+(y*50),10+(x*50))
+                canvas.create_line(10+(y*squareSize),10+(x*squareSize),10+squareSize+(y*squareSize),10+(x*squareSize))
             elif int(line[x]) == 2:
-                canvas.create_line(10+(y*50),10+(x*50),60+(y*50),10+(x*50), fill="red", width=4)
+                canvas.create_line(10+(y*squareSize),10+(x*squareSize),10+squareSize+(y*squareSize),10+(x*squareSize), fill="red", width=4)
 
 def place():
     position = entry.get().split(" ")
     positionX = int(position[0])
     positionY = int(position[1])
 
-    canvas.create_oval(20+(positionX*50),20+(positionY*50),50+(positionX*50),50+(positionY*50))
+    canvas.create_oval(20+(positionX*squareSize),20+(positionY*squareSize),squareSize+(positionX*squareSize),squareSize+(positionY*squareSize))
 
 
 win=Tk()
