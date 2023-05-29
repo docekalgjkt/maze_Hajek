@@ -4,7 +4,6 @@ file = open("soubor2.txt", "r")
 size = file.readline().split(" ")
 rowCount = int(size[0])
 columnCount = int(size[1])
-
 squareSize = 480/rowCount
 if rowCount < columnCount:
     squareSize = 480/columnCount
@@ -27,11 +26,12 @@ def generate():
                 canvas.create_line(10+(y*squareSize),10+(x*squareSize),10+squareSize+(y*squareSize),10+(x*squareSize), fill="red", width=4)
 
 def place():
+    canvas.delete("player")
     position = entry.get().split(" ")
     positionX = int(position[0])
     positionY = int(position[1])
 
-    canvas.create_oval(20+(positionX*squareSize),20+(positionY*squareSize),squareSize+(positionX*squareSize),squareSize+(positionY*squareSize))
+    canvas.create_oval(20+(positionX*squareSize),20+(positionY*squareSize),squareSize+(positionX*squareSize),squareSize+(positionY*squareSize), tags="player")
 
 
 win=Tk()
