@@ -33,6 +33,11 @@ def place():
 
     canvas.create_oval(20+(positionX*squareSize),20+(positionY*squareSize),squareSize+(positionX*squareSize),squareSize+(positionY*squareSize), tags="player")
 
+def start():
+    position = entry.get().split(" ")
+    positionX = int(position[0])
+    positionY = int(position[1])
+    print(positionX, positionY)
 
 win=Tk()
 win.geometry("700x500")
@@ -44,6 +49,8 @@ entry = Entry(frame1)
 entry.place(x=0, y=30)
 submitBtn = Button(frame1, text="Postavit robota", bg="blue", command=place)
 submitBtn.place(x=0,y=60)
+submitBtn = Button(frame1, text="Start", bg="blue", command=start)
+submitBtn.place(x=0,y=90)
 frame2 = Frame(win, width=500, height=500)
 frame2.place(x=200, y=0)
 canvas=Canvas(frame2, width=500, height=500, bg="blue")
