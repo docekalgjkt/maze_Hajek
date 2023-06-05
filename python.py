@@ -37,7 +37,16 @@ def start():
     position = entry.get().split(" ")
     positionX = int(position[0])
     positionY = int(position[1])
-    print(positionX, positionY)
+
+    f = open("soubor2.txt", "r")
+    maze = f.read().splitlines()
+    maze.pop(0)
+
+    rows = maze[:rowCount]
+    colums = maze[-4:]
+
+    print(rows, colums)
+
 
 win=Tk()
 win.geometry("700x500")
