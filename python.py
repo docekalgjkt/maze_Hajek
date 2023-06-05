@@ -12,10 +12,12 @@ def generate():
     for _ in range(rowCount):
         line = file.readline().strip("\n").split(" ")
         for x in range(len(line)):
+            index = 0
             if int(line[x]) == 1:
-                canvas.create_line(10+(x*squareSize),10+(_*squareSize),10+(x*squareSize),10+squareSize+(_*squareSize))
+                canvas.create_line(10+(x*squareSize),10+(_*squareSize),10+(x*squareSize),10+squareSize+(_*squareSize), tags=index)
+                index =+ 1
             elif int(line[x]) == 2:
-                canvas.create_line(10+(x*squareSize),10+(_*squareSize),10+(x*squareSize),10+squareSize+(_*squareSize), fill="red", width=4)
+                canvas.create_line(10+(x*squareSize),10+(_*squareSize),10+(x*squareSize),10+squareSize+(_*squareSize), fill="red", width=4, tags="finish")
 
     for y in range(columnCount):
         line = file.readline().strip("\n").split(" ")
@@ -23,7 +25,7 @@ def generate():
             if int(line[x]) == 1:
                 canvas.create_line(10+(y*squareSize),10+(x*squareSize),10+squareSize+(y*squareSize),10+(x*squareSize))
             elif int(line[x]) == 2:
-                canvas.create_line(10+(y*squareSize),10+(x*squareSize),10+squareSize+(y*squareSize),10+(x*squareSize), fill="red", width=4)
+                canvas.create_line(10+(y*squareSize),10+(x*squareSize),10+squareSize+(y*squareSize),10+(x*squareSize), fill="red", width=4, tags="finish")
 
 def place():
     canvas.delete("player")
@@ -38,14 +40,26 @@ def start():
     positionX = int(position[0])
     positionY = int(position[1])
 
-    f = open("soubor2.txt", "r")
-    maze = f.read().splitlines()
-    maze.pop(0)
+    # f = open("soubor2.txt", "r")
+    # maze = f.read().splitlines()
+    # maze.pop(0)
 
-    rows = maze[:rowCount]
-    colums = maze[-columnCount:]
+    # rows = maze[:rowCount]
+    # colums = maze[-columnCount:]
 
-    print(rows, colums)
+    # top = colums[positionY].split(" ")[positionY:positionY+2][0]
+    # bottom = colums[positionY].split(" ")[positionY:positionY+2][1]
+
+    # left = rows[positionX].split(" ")[positionX:positionX+2][0]
+    # right = rows[positionX].split(" ")[positionX:positionX+2][1]
+
+    #print(canvas.coords("player"), canvas.coords("finish"), canvas.coords("2"))
+    for x in range(rowCount):
+        for y in range(x):
+            print(y)
+
+
+
 
 
 win=Tk()
