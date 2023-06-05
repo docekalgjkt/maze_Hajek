@@ -43,7 +43,7 @@ def start():
     maze.pop(0)
 
     rows = maze[:rowCount]
-    colums = maze[-4:]
+    colums = maze[-columnCount:]
 
     print(rows, colums)
 
