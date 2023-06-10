@@ -46,12 +46,14 @@ def start():
     def detectColissions():
         p = canvas.coords('player')
         overlapingList = canvas.find_overlapping(p[0], p[1], p[2], p[3])
+        if checkFinish():
+            return FALSE
         return len(overlapingList) > 1
     
     def checkFinish():
         finishTag = list(canvas.find_withtag("finish"))[0]
         p = canvas.coords('player')
-        return finishTag in canvas.find_overlapping(p[0], p[1], p[2], p[3])
+        return finishTag in canvas.find_overlapping(p[0], p[1], p[2], p[3]) and len(canvas.find_overlapping(p[0], p[1], p[2], p[3])) == 2
 
     def invertDir(dir):
         if dir == "left":
@@ -67,29 +69,25 @@ def start():
         if dir == "left":
             canvas.move("player",-step,0)
             if detectColissions():
-                if checkFinish() == FALSE:
-                    canvas.move("player",step,0)
+                canvas.move("player",step,0)  
             else:
                 mazeSteps.append(dir)
         if dir == "right":
             canvas.move("player",step,0)
             if detectColissions():
-                if checkFinish() == FALSE:
-                    canvas.move("player",-step,0)
+               canvas.move("player",-step,0)
             else:
                 mazeSteps.append(dir)
         if dir == "top":
             canvas.move("player",0,-step)
             if detectColissions():
-                if checkFinish() == FALSE:
-                    canvas.move("player",0,step)
+                canvas.move("player",0,step) 
             else:
                 mazeSteps.append(dir)
         if dir == "bottom":
             canvas.move("player",0,step)
             if detectColissions():
-                if checkFinish() == FALSE:
-                    canvas.move("player",0,-step)
+                canvas.move("player",0,-step)
             else:
                 mazeSteps.append(dir)
 
