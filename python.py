@@ -1,4 +1,5 @@
 from tkinter import *
+import time
 
 file = open("soubor2.txt", "r")
 size = file.readline().split(" ")
@@ -14,7 +15,7 @@ def generate():
         for x in range(len(line)):
             index = 0
             if int(line[x]) == 1:
-                canvas.create_line(10+(x*squareSize),10+(_*squareSize),10+(x*squareSize),10+squareSize+(_*squareSize), tags=index)
+                canvas.create_line(10+(x*squareSize),10+(_*squareSize),10+(x*squareSize),10+squareSize+(_*squareSize))
                 index =+ 1
             elif int(line[x]) == 2:
                 canvas.create_line(10+(x*squareSize),10+(_*squareSize),10+(x*squareSize),10+squareSize+(_*squareSize), fill="red", width=4, tags="finish")
@@ -35,29 +36,72 @@ def place():
 
     canvas.create_oval(20+(positionX*squareSize),20+(positionY*squareSize),squareSize+(positionX*squareSize),squareSize+(positionY*squareSize), tags="player")
 
+
+    
 def start():
-    position = entry.get().split(" ")
-    positionX = int(position[0])
-    positionY = int(position[1])
+    step = 0.5*squareSize
+    generalDirections = ["top", "left", "right", "bottom"]
+    mazeSteps = []
 
-    # f = open("soubor2.txt", "r")
-    # maze = f.read().splitlines()
-    # maze.pop(0)
+    def detectColissions():
+        p = canvas.coords('player')
+        overlapingList = canvas.find_overlapping(p[0], p[1], p[2], p[3])
+        return len(overlapingList) > 1
+    
+    def checkFinish():
+        finishTag = list(canvas.find_withtag("finish"))[0]
+        p = canvas.coords('player')
+        return finishTag in canvas.find_overlapping(p[0], p[1], p[2], p[3])
 
-    # rows = maze[:rowCount]
-    # colums = maze[-columnCount:]
+    def invertDir(dir):
+        if dir == "left":
+            return "right"
+        if dir == "right":
+            return "left"
+        if dir == "top":
+            return "bottom"
+        if dir == "bottom":
+            return "top"
 
-    # top = colums[positionY].split(" ")[positionY:positionY+2][0]
-    # bottom = colums[positionY].split(" ")[positionY:positionY+2][1]
+    def makeStep(dir):
+        if dir == "left":
+            canvas.move("player",-step,0)
+            if detectColissions():
+                if checkFinish() == FALSE:
+                    canvas.move("player",step,0)
+            else:
+                mazeSteps.append(dir)
+        if dir == "right":
+            canvas.move("player",step,0)
+            if detectColissions():
+                if checkFinish() == FALSE:
+                    canvas.move("player",-step,0)
+            else:
+                mazeSteps.append(dir)
+        if dir == "top":
+            canvas.move("player",0,-step)
+            if detectColissions():
+                if checkFinish() == FALSE:
+                    canvas.move("player",0,step)
+            else:
+                mazeSteps.append(dir)
+        if dir == "bottom":
+            canvas.move("player",0,step)
+            if detectColissions():
+                if checkFinish() == FALSE:
+                    canvas.move("player",0,-step)
+            else:
+                mazeSteps.append(dir)
 
-    # left = rows[positionX].split(" ")[positionX:positionX+2][0]
-    # right = rows[positionX].split(" ")[positionX:positionX+2][1]
-
-    #print(canvas.coords("player"), canvas.coords("finish"), canvas.coords("2"))
-    for x in range(rowCount):
-        for y in range(x):
-            print(y)
-
+    while checkFinish() == FALSE:
+        time.sleep(0.2)
+        for i in generalDirections:
+           print(mazeSteps)
+           if len(mazeSteps):
+                if invertDir(i) != mazeSteps[-1]:
+                    makeStep(i)
+           else: makeStep(i)
+    
 
 
 
