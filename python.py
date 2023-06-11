@@ -1,7 +1,7 @@
 from tkinter import *
 import time
 
-file = open("soubor2.txt", "r")
+file = open("maze.txt", "r")
 size = file.readline().split(" ")
 rowCount = int(size[0])
 columnCount = int(size[1])
@@ -39,18 +39,18 @@ def place():
 
     
 def start():
-    step = 0.5*squareSize
+    step = 0.5*squareSize #calculate step size depending on maze size
     generalDirections = ["top", "left", "right", "bottom"]
     mazeSteps = []
 
-    def detectColissions():
+    def detectColissions(): #returns true if player collides with another object
         p = canvas.coords('player')
         overlapingList = canvas.find_overlapping(p[0], p[1], p[2], p[3])
         if checkFinish():
             return FALSE
         return len(overlapingList) > 1
     
-    def checkFinish():
+    def checkFinish(): #checks if user collides with finish line
         finishTag = list(canvas.find_withtag("finish"))[0]
         p = canvas.coords('player')
         return finishTag in canvas.find_overlapping(p[0], p[1], p[2], p[3]) and len(canvas.find_overlapping(p[0], p[1], p[2], p[3])) == 2
@@ -65,7 +65,7 @@ def start():
         if dir == "bottom":
             return "top"
 
-    def makeStep(dir):
+    def makeStep(dir): #makes step and check for collison, revert that step on collison
         if dir == "left":
             canvas.move("player",-step,0)
             if detectColissions():
@@ -94,9 +94,8 @@ def start():
     while checkFinish() == FALSE:
         time.sleep(0.2)
         for i in generalDirections:
-           print(mazeSteps)
            if len(mazeSteps):
-                if invertDir(i) != mazeSteps[-1]:
+                if invertDir(i) != mazeSteps[-1]: #prevent making same steps again
                     makeStep(i)
            else: makeStep(i)
     
